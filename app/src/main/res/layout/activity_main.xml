@@ -59,6 +59,7 @@
             android:text="@string/true_button"
             android:textColor="@color/colorText"
             android:textStyle="bold"
+            android:onClick="TrueClick"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:background="@color/colorTrueButton"
             android:textSize="20sp" />
@@ -72,6 +73,7 @@
             android:background="@color/colorFalseButton"
             android:textColor="@color/colorText"
             android:textStyle="bold"
+            android:onClick="FalseClick"
             android:textSize="20sp"/>
     </LinearLayout>
 
