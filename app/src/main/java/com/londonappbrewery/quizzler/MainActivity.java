@@ -43,9 +43,29 @@ public class MainActivity extends Activity {
     };
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("ScoreKey", mScore);
+        outState.putInt("IndexKey", mIndex);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null)
+        {
+            mScore = savedInstanceState.getInt("ScoreKey");
+            mIndex = savedInstanceState.getInt("IndexKey");
+
+        }
+        else
+        {
+            mScore = 0;
+            mIndex = 0;
+        }
+
         mTrueButton = findViewById(R.id.true_button);
         mFalseButton = findViewById(R.id.false_button);
         mQuestionTextView = findViewById(R.id.question_text_view);
@@ -53,6 +73,12 @@ public class MainActivity extends Activity {
         mScoreTextView = findViewById(R.id.score);
 
         mQuestion = mQuestionBank[mIndex].getQuestionID();
+
+        if (savedInstanceState != null)
+        {
+            mScoreTextView.setText("Score " + mScore + "/13");
+            mQuestionTextView.setText(mQuestion);
+        }
     }
 
     public void TrueClick(View view) {
@@ -67,7 +93,9 @@ public class MainActivity extends Activity {
 
     private void UpdateQuestion() {
         // Using modulus to reset to 1...
-        mIndex = (mIndex + 1) % mQuestionBank.length;
+        mIndex = (mIndex + 1);
+        if (mIndex > mQuestionBank.length - 1)
+            mIndex = 0;
 
         if (mIndex == 0){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -80,6 +108,7 @@ public class MainActivity extends Activity {
                     finish();
                 }
             });
+            alert.show();
         }
 
         mQuestion = mQuestionBank[mIndex].getQuestionID();
